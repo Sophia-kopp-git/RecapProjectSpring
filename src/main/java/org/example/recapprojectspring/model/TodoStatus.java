@@ -1,7 +1,7 @@
 package org.example.recapprojectspring.model;
 
 public enum TodoStatus {
-    TODO("Todo"),
+    OPEN("Open"),
     DOING("Doing"),
     DONE("Done");
 
