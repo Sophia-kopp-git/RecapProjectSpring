@@ -14,13 +14,11 @@ import java.util.Optional;
 public class TodoService {
     private final TodoRepo repo;
     private final IdService idService;
-    private final StatusService statusService;
 
 
-    public TodoService(TodoRepo repo, IdService idService, StatusService statusService) {
+    public TodoService(TodoRepo repo, IdService idService) {
         this.repo = repo;
         this.idService = idService;
-        this.statusService = statusService;
     }
 
     public List<Todo> getAllTasks() {

@@ -16,8 +16,8 @@ public class todoController {
 
     private final TodoService service;
 
-    public todoController(TodoService todoService) {
-        this.service = todoService;
+    public todoController(TodoService service) {
+        this.service = service;
     }
 
     @GetMapping
