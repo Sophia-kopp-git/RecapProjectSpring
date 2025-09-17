@@ -26,4 +26,16 @@ public class todoController {
     public Todo addNewTask(@RequestBody TodoDto todoDto){
         return service.addNewTask(todoDto);
     }
+
+    @GetMapping("/{id}")
+    public Todo seeDetails(@PathVariable String id){
+        return service.getTaskById(id);
+    }
+
+    @PutMapping("/{id}")
+    public void editTodo(@PathVariable String id, @RequestBody TodoDto todoDto){
+        service.editExistingTask(id, todoDto);
+    }
+
+    public void advanceTodo(){}
 }
