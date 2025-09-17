@@ -1,4 +1,6 @@
 package org.example.recapprojectspring.dto;
 
-public record TodoDto() {
+import org.example.recapprojectspring.model.TodoStatus;
+
+public record TodoDto(String description, TodoStatus status) {
 }
