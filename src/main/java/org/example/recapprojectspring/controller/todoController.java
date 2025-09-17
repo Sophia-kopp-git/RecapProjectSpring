@@ -36,6 +36,8 @@ public class todoController {
     public void editTodo(@PathVariable String id, @RequestBody TodoDto todoDto){
         service.editExistingTask(id, todoDto);
     }
-
-    public void advanceTodo(){}
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable String id){
+       service.deleteTaskWithId(id);
+    }
 }
