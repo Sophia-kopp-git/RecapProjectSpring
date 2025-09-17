@@ -3,8 +3,11 @@ package org.example.recapprojectspring.controller;
 import org.example.recapprojectspring.dto.TodoDto;
 import org.example.recapprojectspring.model.Todo;
 import org.example.recapprojectspring.service.TodoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,8 +26,14 @@ public class todoController {
     }
 
     @PostMapping
-    public Todo addNewTask(@RequestBody TodoDto todoDto){
-        return service.addNewTask(todoDto);
+    public ResponseEntity<Todo> addNewTask(@RequestBody TodoDto todoDto){
+           Todo createdTask = service.addNewTask(todoDto);
+       // return ResponseEntity.badRequest()
+                //.body("Year of birth cannot be in the future");
+
+        return ResponseEntity.status(HttpStatus.CREATED).header("URI", "/api/todo/" + createdTask.id())
+                .body(createdTask);
+
     }
 
     @GetMapping("/{id}")
@@ -37,7 +46,9 @@ public class todoController {
         service.editExistingTask(id, todoDto);
     }
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable String id){
+    public ResponseEntity<String> deleteTask(@PathVariable String id){
        service.deleteTaskWithId(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Task was deleted!");
     }
 }
