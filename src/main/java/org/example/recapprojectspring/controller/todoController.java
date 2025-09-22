@@ -2,6 +2,7 @@ package org.example.recapprojectspring.controller;
 
 import org.example.recapprojectspring.dto.TodoDto;
 import org.example.recapprojectspring.exceptions.NoTaskWithThisIDFoundException;
+import org.example.recapprojectspring.exceptions.NoTodoWasCreatedException;
 import org.example.recapprojectspring.model.Todo;
 import org.example.recapprojectspring.service.TodoService;
 import org.springframework.http.HttpStatus;
@@ -21,36 +22,42 @@ public class todoController {
     }
 
     @GetMapping
-    public List<Todo> getAllTasks(){
+    public List<Todo> getAllTasks() {
         return service.getAllTasks();
     }
 
     @PostMapping
-    public ResponseEntity<Todo> addNewTask(@RequestBody TodoDto todoDto){
-           Todo createdTask = service.addNewTask(todoDto);
-        return ResponseEntity.status(HttpStatus.CREATED).header("URI", "/api/todo/" + createdTask.id())
-                .body(createdTask);
+    public ResponseEntity<Todo> addNewTask(@RequestBody TodoDto todoDto) {
+        Todo createdTask = service.addNewTask(todoDto);
+        if (createdTask.description() != null) {
+
+            return ResponseEntity.status(HttpStatus.CREATED).header("URI", "/api/todo/" + createdTask.id())
+                    .body(createdTask);
+        } else {
+            throw new NoTodoWasCreatedException("Todo wasnt created. Wrong format");
+        }
 
     }
 
     @GetMapping("/{id}")
-    public Todo seeDetails(@PathVariable String id){
+    public Todo seeDetails(@PathVariable String id) {
         Todo response = service.getTaskById(id);
-        if(response!= null){
+        if (response != null) {
 
-        return response;
+            return response;
         } else {
             throw new NoTaskWithThisIDFoundException("No Task found with id " + id);
         }
     }
 
     @PutMapping("/{id}")
-    public void editTodo(@PathVariable String id, @RequestBody TodoDto todoDto){
+    public void editTodo(@PathVariable String id, @RequestBody TodoDto todoDto) {
         service.editExistingTask(id, todoDto);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable String id){
-       service.deleteTaskWithId(id);
+    public ResponseEntity<String> deleteTask(@PathVariable String id) {
+        service.deleteTaskWithId(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Task was deleted!");
     }

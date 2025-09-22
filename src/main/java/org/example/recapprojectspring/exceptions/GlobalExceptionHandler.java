@@ -13,5 +13,10 @@ public class GlobalExceptionHandler {
     public String handleNoTaskWithThisIdFoundException( NoTaskWithThisIDFoundException e){
     return e.getMessage();
 }
+    @ExceptionHandler(NoTodoWasCreatedException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleNoTaskWasCreatedException( NoTodoWasCreatedException e){
+        return e.getMessage();
+    }
 
 }
